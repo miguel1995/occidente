@@ -1,23 +1,30 @@
-import logo from './logo.svg';
 import './App.css';
+import { Navigate, Route, Routes } from 'react-router';
+import { BrowserRouter } from 'react-router-dom';
+import ProductPage from './pages/productPage';
+import OrderPage from './pages/orderPage';
+import LoginPage from './pages/loginPage';
+import { useSelector } from 'react-redux';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
+
+  const isAuth = Boolean(useSelector((state)=>state.token));
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    
+
+    <div style={{backgroundColor: "#008acb"}}>
+
+
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<LoginPage />} />
+          <Route path='/products' element={isAuth ? <ProductPage /> : <Navigate to="/" />} />
+          <Route path='/order' element={isAuth ? <OrderPage /> : <Navigate to="/" />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
