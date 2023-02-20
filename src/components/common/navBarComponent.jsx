@@ -1,13 +1,19 @@
 import { useState } from "react";
-import { Collapse, Nav, Navbar, NavbarBrand, NavbarText, NavbarToggler, NavItem, NavLink } from "reactstrap";
+import { Button, Collapse, Nav, Navbar, NavbarBrand, NavbarText, NavbarToggler, NavItem, NavLink } from "reactstrap";
 import CarWidget from "./carWidget";
 import logo from '../../assets/logo-social.png'; // Tell webpack this JS file uses this image
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+import { setLogout } from "../../state";
+import { BsArrowBarLeft } from "react-icons/bs";
 
 
 const NavBarComponent = (props) => {
 
     const userName = useSelector((state) => state.user.name);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
 
 
     return (
@@ -32,6 +38,11 @@ const NavBarComponent = (props) => {
                 <NavbarText>
                     <CarWidget />
                 </NavbarText>
+                <Button onClick={() => {
+                    dispatch(setLogout());
+                    navigate("/");
+                }
+                }>Cerrar Sesión <BsArrowBarLeft /></Button>
             </Navbar>
         </div>
     );

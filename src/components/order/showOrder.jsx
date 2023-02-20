@@ -1,24 +1,33 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Card, CardImg, CardBody, CardImgOverlay, CardText, CardTitle, Col, Row, Cardody, CardSubtitle } from "reactstrap";
+import { Button, Card, CardImg, CardBody, CardImgOverlay, CardText, CardTitle, Col, Row, Cardody, CardSubtitle, Modal, ModalBody, ModalHeader  } from "reactstrap";
 import { BsFillCreditCardFill, BsFillTrashFill } from "react-icons/bs";
 import { setCleanProductsToBuy, removeProductToBuy } from "../../state";
 import mediosPago from "../../assets/medios-pago.jpg";
+import ConfirmBuy from "./confirmBuy";
+
+
+
 
 const ShowOrder = () => {
 
-    const [total, setTotal] = useState(0);
+    
     const dispatch = useDispatch();
-    const selectorData = useSelector((state) => {
+    const [modal, setModal] = useState(false);
+    const toggle = () => setModal(!modal);
+
+    const products = useSelector((state)=>{    
         return state.productsToBuy;
     });
-const [products, setProducts] = useState(selectorData);
-    const count = useSelector((state) => {
-        console.log(state.productsToBuy);
-        return state.productsToBuy.length;
+
+    const total = useSelector((state)=>{    
+        return state.totalToBuy;
+    });
+
+    const count = useSelector((state)=>{    
+        return state.countToBuy;
     });
     
-
     function cleanCar() {
         dispatch(setCleanProductsToBuy());
     }
@@ -31,13 +40,7 @@ const [products, setProducts] = useState(selectorData);
     // Similar to componentDidMount and componentDidUpdate:
     useEffect(() => {
 
-        setProducts(selectorData);
-        let tempTotal = 0;
-        products.forEach((value) => {
-            console.log(value.cost);
-                tempTotal += parseInt(value.cost);
-        });
-        setTotal(tempTotal);
+        
 
     }, []);
 
@@ -101,12 +104,20 @@ const [products, setProducts] = useState(selectorData);
                     <div>
                         <Button color="danger" onClick={cleanCar}>Limpiar Carrito <BsFillTrashFill /> </Button>
 
-                        <Button color="warning">Pagar <BsFillCreditCardFill /> </Button>
+                        <Button color="warning" onClick={toggle}>Pagar <BsFillCreditCardFill /> </Button>
                     </div>
                     <br />
                     <img src={mediosPago}/>
                 </Col>
             </Row>
+
+            <Modal isOpen={modal} toggle={toggle} >
+                    <ModalHeader toggle={toggle}></ModalHeader>
+                    <ModalBody>
+                        <ConfirmBuy toggle={toggle} total={total} save={cleanCar}/>
+                    </ModalBody>
+                </Modal>
+
         </div>
     );
 }

@@ -5,9 +5,8 @@ import { Badge, Button } from "reactstrap";
 
 const CarWidget = () => {
     const navigate = useNavigate();
-    const count = useSelector((state)=>{
-        console.log(state.productsToBuy);
-        return state.productsToBuy.length;
+    const count = useSelector((state)=>{    
+        return state.countToBuy;
     });
 
     return (
