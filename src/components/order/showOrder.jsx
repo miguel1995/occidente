@@ -76,7 +76,8 @@ const ShowOrder = () => {
                                                     className="mb-2 text-muted"
                                                     tag="h5"
                                                 >
-                                                    ${data.cost} x {data.cost} Unidades
+                                                    ${data.cost} x 1 Unidad
+                                                    
                                                 </CardSubtitle>
                                                 
                                                 <Button color="danger" onClick={()=>{removeItem(data)}}><BsFillTrashFill/></Button>

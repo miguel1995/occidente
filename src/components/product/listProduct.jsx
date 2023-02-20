@@ -36,15 +36,17 @@ const ListProduct = (props) => {
         <div>
 
             <Row>
-            {products.map((data, index) => {
-                return (
-                    <Col key={index} md={4}>
-                        <ShowItem   item={data}/>                        
-                    </Col>
-                );
-            })
-            }
+                {
+                    products.map((data, index) => {
+                        return (
+                            <Col key={index} md={4}>
+                                <ShowItem   item={data}/>                        
+                            </Col>
+                        );
+                    })
+                }
             </Row>
+
         </div>
     );
 }
