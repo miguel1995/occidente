@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { CardGroup, Col, Row } from "reactstrap";
 import NavBarComponent from "../common/navBarComponent";
@@ -10,6 +11,8 @@ const ListProduct = (props) => {
 
     const [products, setProducts] = useState([]);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
 
     const apiUrl = "https://cj897jxtlg.execute-api.us-east-1.amazonaws.com";
 
@@ -21,6 +24,7 @@ const ListProduct = (props) => {
         });
         const data = await response.json();
         setProducts(data);
+        
     };
 
     // Similar to componentDidMount and componentDidUpdate:

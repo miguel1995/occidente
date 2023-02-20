@@ -24,7 +24,7 @@ const ShowItem = (props) => {
                 <CardText>
                 {props.item.description}
                 </CardText>
-                <AddProduct/>
+                <AddProduct product={props.item}/>
             </CardBody>
         </Card>
     );

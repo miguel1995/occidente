@@ -7,77 +7,71 @@ import CreateUser from "../../components/user/createUser";
 
 
 const LoginPage = () => {
-    
+
     const [isLogin, setIsLogin] = useState(true);
     const [isRegister, setIsRegister] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const logInUser = async(values) => {
-        
+    const logInUser = async (values) => {
 
-          const loginUser = await fetch(
-              "https://97nsdaz2xh.execute-api.us-east-1.amazonaws.com/users/login",
-              {
-                  method: "POST",
-                  body: values,
-              }
-          );
-  
-          const responseLogin = await loginUser.json();
+        const loginUser = await fetch(
+            "https://cj897jxtlg.execute-api.us-east-1.amazonaws.com/user/login",
+            {
+                method: "POST",
+                body: values,
+            }
+        );
 
-          if(responseLogin.status==='Ok'){
+        const responseLogin = await loginUser.json();
 
-            /*dispatch(setLogin({
-              user: responseLogin.user,
-              //token: loggedIn.token
-              token: "TOKEN"
-          }));*/
+        if (responseLogin.status === 'Ok') {
+
+            dispatch(setLogin({
+                user: responseLogin.user,
+                //token: loggedIn.token
+                token: "TOKEN"
+            }));
 
             navigate("/products");
-          }else{
-            console.log("responseLogin -> ",responseLogin);
+        } else {
+            console.log("responseLogin -> ", responseLogin);
             alert("Usuario o contraseña incorrectos")
-          }
-      
+        }
 
-        
     }
 
     return (
-        <div className="container" style={{backgroundColor: "#FFFFFFE6"}}>
+        <div className="container" style={{ backgroundColor: "#FFFFFFE6" }}>
             {isLogin && (
                 <>
                     <div>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <h4>Welcome</h4>
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <h4>Bienvenido</h4>
                         <Formik
                             initialValues={{ email: '', password: '' }}
                             validate={values => {
                                 const errors = {};
                                 if (!values.email) {
-                                    errors.email = 'Required';
+                                    errors.email = 'Campo obligatorio';
                                 } else if (
                                     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
                                 ) {
-                                    errors.email = 'Invalid email address';
+                                    errors.email = 'Email invalido';
                                 }
 
                                 if (!values.password) {
-                                    errors.password = 'Required';
+                                    errors.password = 'Campo obligatorio';
                                 }
 
                                 return errors;
                             }}
                             onSubmit={async (values, { setSubmitting }) => {
 
-                                navigate("/products");
-
-                              /*values["password"] = md5(values.password);
-                                logInUser(JSON.stringify(values, null, 2));*/
+                                logInUser(JSON.stringify(values, null, 2));
 
                             }}
                         >
@@ -94,7 +88,7 @@ const LoginPage = () => {
                                 <div>
                                     <form onSubmit={handleSubmit}>
                                         <div className="form-group">
-                                            <label>Email address</label>
+                                            <label>Email</label>
                                             <input
                                                 type="email"
                                                 name="email"
@@ -108,7 +102,7 @@ const LoginPage = () => {
                                             <small id="emailHelp" className="form-text text-muted">{errors.email && touched.email && errors.email}</small>
                                         </div>
                                         <div className="form-group">
-                                            <label>Password</label>
+                                            <label>Contraseña</label>
                                             <input
                                                 type="password"
                                                 name="password"
@@ -120,27 +114,27 @@ const LoginPage = () => {
                                                 placeholder="Password" />
                                             <small id="emailHelp" className="form-text text-muted">{errors.password && touched.password && errors.password}</small>
                                         </div>
-                                        <br/>
+                                        <br />
                                         <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Log In</button>
-                                        <br/>
-                                        <a 
-                                        className="alert-link"
-                                        onClick={()=>{
-                                            setIsLogin(false);                                        
-                                            setIsRegister(true);                                    
-                                        }}>You haven't registered yet, create a new account</a>
+                                        <br />
+                                        <a
+                                            className="alert-link"
+                                            onClick={() => {
+                                                setIsLogin(false);
+                                                setIsRegister(true);
+                                            }}>You haven't registered yet, create a new account</a>
                                     </form>
 
                                 </div>
-                            )} 
-                            
+                            )}
+
                         </Formik>
                     </div>
                 </>
             )}
 
             {isRegister && (
-                      <CreateUser/>              
+                <CreateUser />
             )}
         </div>
     );
